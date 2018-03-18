@@ -62,6 +62,8 @@ Each card has fields to show (for example) the account number, the crop of this 
 
 For this mock-up, to make community indemnification more realistic there is a last account that represents the rest of the community and its field of current total is 10,000 times more that each individual account.
 
+> If we have more time, once the first simple mock-up works, a more flashy front-end would replace the cards with a zoomable Google Map where there will be remarkable dots representing farmers. When the mouse hovers over a dot, there would be a tooltip box displaying the same content as in the card above. The map could represent India and Bengla Desh, for example, and we could zoom in some Bengali farmers, and some in Gujarat, India. Then the account representing the rest of the community would have to be represented somehow externally to the map.
+
 We can click on a button to trigger a simulated periodic premium collection. 
 The latter will increase by a same amount for each agreement, in the demo, for example 100 rupees (in digital assets).
 The community account will increase by 10,000 times the individual amount.
