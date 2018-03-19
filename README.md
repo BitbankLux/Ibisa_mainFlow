@@ -1,5 +1,5 @@
 # IBISA - Inclusive Blockchain Insurance using Space Assets
-This repository is a first mock-up of one key function in IBISA. It is still _Work In progress_.
+This repository is a first mock-up of one of the key functions in IBISA. It is still _Work In progress_.
 ## Executive Summary
 IBISA’s Value Proposition is: ‘_Mutual microinsurance (MMI) with low fees and fast claims payment_’. The purpose is to bring insurance (it is actually more _risk sharing_ than _insurance_) to a large and so far un-insured population worldwide (500 millions households). 
 
