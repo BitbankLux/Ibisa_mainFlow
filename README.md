@@ -9,7 +9,7 @@ Poor, rural farmers are exposed to extreme financial distress – especially whe
 
 The problem is that small sum insured means small premium and low or negative profit for the insurers.  Therefore the business is not viable in the traditional way and the demand is not well satisfied. 
 ### What is the Solution?
-The solution is an ancestral pratice: **risk sharing within a community**.
+The solution is an ancestral practice: **risk sharing within a community**.
 
 But traditional risk sharing has limits
   * covariate risks: a drought will hit everybody in the same village;
