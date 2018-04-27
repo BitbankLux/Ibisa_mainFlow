@@ -1,0 +1,27 @@
+{
+  "name": "Cygnature",
+  "version": "1.0.0",
+  "description": "This Cygnature web api for serving contract methods",
+  "main": "server.js",
+  "scripts": {
+    "dev": "set NODE_ENV=development&&nodemon ./bin/www",
+    "prod": "set NODE_ENV=production&&nodemon ./bin/www",
+    "start": "nodemon ./bin/www"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "app-root-dir": "^1.0.2",
+    "body-parser": "^1.18.2",
+    "express": "^4.16.2",
+    "mongodb": "^3.0.1",
+    "mongoose": "^4.13.9",
+    "truffle-contract": "^3.0.1",
+    "web3": "^0.20.3",
+    "winston": "^2.4.0"
+  },
+  "devDependencies": {
+    "nodemon": "^1.14.8",
+    "webpack": "^3.10.0"
+  }
+}
