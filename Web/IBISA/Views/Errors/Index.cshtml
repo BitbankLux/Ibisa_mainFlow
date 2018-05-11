@@ -1,0 +1,31 @@
+﻿@{
+    ViewBag.Title = "IBISA | Error";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="content-wrapper">
+    <!-- Main content -->
+    <section class="content">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12 col-xs-12 ">
+                    <div class="box box-primary">
+                        <div class="box-header with-border" style="background-color: #d9edf7; border-color: #bce8f1; padding: 15px 15px; ">
+                            <h3 class="box-title" style="color: #31708f; ">@ViewBag.ErrorHead</h3>
+                        </div>
+                        <!-- /.box-header -->
+                        @if (!string.IsNullOrEmpty(Convert.ToString(ViewBag.ErrorMessage)))
+                        {
+                            <div class="box-body">
+                                <dl class="dl-horizontal">
+                                    @ViewBag.ErrorMessage
+                                </dl>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- /.content -->
+</div>

@@ -1,0 +1,146 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>IBISA | Home</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <!-- Bootstrap 3.3.7 -->
+    <link rel="stylesheet" href="~/css/bootstrap.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="~/css/font-awesome.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="~/css/ionicons.min.css">
+    <!-- jvectormap -->
+    <link rel="stylesheet" href="~/css/jquery-jvectormap.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="~/css/style.css">
+    <!-- AdminLTE Skins. Choose a skin from the css/skins
+       folder instead of downloading all of them to reduce the load. -->
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <!-- Google Font -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+</head>
+
+<body class="hold-transition layout-top-nav">
+    <div class="wrapper">
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <div class="container">
+                    <div class="lp-header">
+                        <a><img src="~/images/ibisa-logo.png" alt="IBISA Logo"></a>
+                    </div>
+                </div>
+            </section>
+            <!-- Main content -->
+            <section class="content launch-item">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-4">
+                            <a href="@Url.Action("Dashboard","IBISADashboard")" target="_blank" title="User Dashboard">
+                                <div class="box box-primary">
+                                    <div class="box-body" style="min-height: inherit;">
+                                        <div class="clearfix">
+                                            <div class="col-xs-8">
+                                                <h3>User<br>Dashboard</h3>
+                                            </div>
+                                            <div class="col-xs-4 text-right">
+                                                <img src="~/images/icon-user.png" alt="User Dashboard" class="img-responsive">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- /.box-body -->
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-xs-12 col-sm-4">
+                            <a href="@Url.Action("SystemDashboard", "IBISAAdmin")" target="_blank" title="System Dashboard">
+                                <div class="box box-primary">
+                                    <div class="box-body" style="min-height: inherit;">
+                                        <div class="clearfix">
+                                            <div class="col-xs-8">
+                                                <h3>System<br>Dashboard</h3>
+                                            </div>
+                                            <div class="col-xs-4 text-right">
+                                                <img src="~/images/icon-system-dashboad.png" alt="System Dashboard" class="img-responsive">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- /.box-body -->
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-xs-12 col-sm-4">
+                            <a href="https://xd.adobe.com/view/2b16918f-c9b3-4d58-bc4c-24df265922ab" target="_blank" title="Watcher Dashboard">
+                                <div class="box box-primary">
+                                    <div class="box-body" style="min-height: inherit;">
+                                        <div class="clearfix">
+                                            <div class="col-xs-8">
+                                                <h3 class="margin-bottom-none">Watcher<br>Dashboard</h3>
+                                            </div>
+                                            <div class="col-xs-4 text-right">
+                                                <img src="~/images/icon-watcher-dashboard.png" alt="Watcher Dashboard" class="img-responsive">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- /.box-body -->
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <!-- /.box -->
+                </div>
+            </section>
+            <!-- /.content -->
+        </div>
+        <!-- /.content-wrapper -->
+        <footer class="main-footer">
+            <div class="container">
+                <div class="pull-right hidden-xs">
+                    <ul class="list-unstyled">
+                        <li class="inline"><a href="#"><i class="fa fa-twitter"></i>&nbsp;&nbsp;</a> </li>
+                        <li class="inline"><a href="#"><i class="fa fa-envelope"></i>&nbsp;&nbsp;</a> </li>
+                        <li class="inline"><a href="#"><i class="fa fa-linkedin"></i>&nbsp;&nbsp;</a> </li>
+                    </ul>
+                </div>
+                <strong>Copyright &copy; 2018 <a href="http://www.bitbank.lu/ibisa">Bitbank Sarl</a>.</strong> All Rights Reserved.
+            </div>
+        </footer>
+
+    </div>
+    <!-- ./wrapper -->
+    <!-- jQuery 3 -->
+    <script src="~/js/jquery.min.js"></script>
+    <!-- Bootstrap 3.3.7 -->
+    <script src="~/js/bootstrap.min.js"></script>
+    <!-- FastClick -->
+    <script src="~/js/fastclick.js"></script>
+    <!-- AdminLTE App -->
+    <script src="~/js/theme.min.js"></script>
+    <!-- Sparkline -->
+    <script src="~/js/jquery.sparkline.min.js"></script>
+    <!-- jvectormap  -->
+    <script src="~/js/jquery-jvectormap-1.2.2.min.js"></script>
+    <script src="~/js/jquery-jvectormap-world-mill-en.js"></script>
+    <!-- SlimScroll -->
+    <script src="~/js/jquery.slimscroll.min.js"></script>
+    <!-- ChartJS -->
+    <script src="~/js/chart.min.js"></script>
+    <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
+    <script src="~/js/page.js"></script>
+</body>
+</html>
+

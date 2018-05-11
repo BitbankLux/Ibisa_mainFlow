@@ -1,0 +1,129 @@
+﻿@using IBISA.Controllers
+@using IBISA.Models
+@using EnumHelper = IBISA.Helper.EnumHelper
+@model List<TransactionInfo>
+
+@{
+    ViewBag.Title = "IBISA | Transaction Summary";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var agreementPrimaryId = 0;
+    var agreementNumber = string.Empty;
+    var contributions = new List<TransactionInfo>();
+    var indemnifications = new List<TransactionInfo>();
+    if (Model != null && Model.Count > 0)
+    {
+        agreementPrimaryId = Model.First().AgreementPrimaryId;
+        agreementNumber = Model.First().AgreementNumber;
+        foreach (var transactionDetails in Model.GroupBy(x => x.TransactionTypeId))
+        {
+            switch (transactionDetails.Key)
+            {
+                case (int)EnumHelper.TransactionType.Contribution:
+                    contributions = transactionDetails.OrderByDescending(x => x.DateOfAgreement).ToList();
+                    break;
+                case (int)EnumHelper.TransactionType.Indemnification:
+                    indemnifications = transactionDetails.OrderByDescending(x => x.DateOfAgreement).ToList();
+                    break;
+            }
+        }
+    }
+}
+
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <div class="container">
+            <h1>Agreement <small>@(!string.IsNullOrEmpty(agreementNumber) ? string.Format("({0} Transactions)", agreementNumber) : "")</small></h1>
+            <ol class="breadcrumb">
+                <li><a href="@Url.Action("Index", "Home")"><i class="fa fa-home"></i> Home</a></li>
+                <li><a href="@Url.Action("SystemDashboard")">System Dashboard</a></li>
+                <li class="active">Agreement</li>
+            </ol>
+        </div>
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        <div class="container">
+
+            <!-- TABLE: LATEST ORDERS -->
+            <div class="row">
+                <div class="col-md-6 col-sm-12 col-xs-12">
+                    <div class="box box-primary">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">Contributions</h3>
+                        </div>
+                        <!-- /.box-header -->
+                        <div class="box-body">
+                            <div class="table-responsive">
+                                <table class="table no-margin agreement-list">
+                                    <thead>
+                                        <tr>
+                                            <th>Month</th>
+                                            <th class="text-right">Contribution</th>
+                                            <th class="text-center hash-key">Transaction Hash</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @if (contributions.Any())
+                                        {
+                                            foreach (var contribution in contributions)
+                                            {
+                                                <tr>
+                                                    <td>@contribution.DateOfAgreement.ToString("dd-MMM-yy")</td>
+                                                    <td class="text-right">@((contribution.Amount * 1000).ToString("0.##")) XIB</td>
+                                                    <td class="text-right text-ellipsis"><a href="@Url.Action("TransactionDetails", new { id = agreementPrimaryId, transactionHash = @contribution.TransactionHash })">@contribution.TransactionHash</a></td>
+                                                </tr>
+                                            }
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!-- /.table-responsive -->
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-sm-12 col-xs-12">
+                    <div class="box box-primary">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">Indemnification</h3>
+                        </div>
+                        <!-- /.box-header -->
+                        <div class="box-body">
+                            <div class="table-responsive">
+                                <table class="table no-margin agreement-list">
+                                    <thead>
+                                        <tr>
+                                            <th>Month</th>
+                                            <th class="text-right">Indemnity</th>
+                                            <th class="text-center hash-key">Transaction Hash</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @if (indemnifications.Any())
+                                        {
+                                            foreach (var indemnification in indemnifications)
+                                            {
+                                                <tr>
+                                                    <td>@indemnification.DateOfAgreement.ToString("dd-MMM-yy")</td>
+                                                    <td class="text-right">@((indemnification.Amount * 1000).ToString("0.##")) XIB</td>
+                                                    <td class="text-right text-ellipsis"><a href="@Url.Action("TransactionDetails", new { id = agreementPrimaryId, transactionHash = @indemnification.TransactionHash })">@indemnification.TransactionHash</a></td>
+                                                </tr>
+                                            }
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!-- /.table-responsive -->
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <!-- /.box -->
+        </div>
+    </section>
+    <!-- /.content -->
+</div>
+<!-- /.content-wrapper -->

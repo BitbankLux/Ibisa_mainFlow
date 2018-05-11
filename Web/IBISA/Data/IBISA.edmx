@@ -1,0 +1,227 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="IBISAModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Agreements">
+          <Key>
+            <PropertyRef Name="AgreementPrimaryId" />
+          </Key>
+          <Property Name="AgreementPrimaryId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="AgreementId" Type="int" />
+          <Property Name="AgreementNumber" Type="nvarchar" MaxLength="50" />
+          <Property Name="Location" Type="nvarchar" MaxLength="50" />
+          <Property Name="Zone" Type="nvarchar" MaxLength="50" />
+          <Property Name="Crop" Type="nvarchar" MaxLength="50" />
+          <Property Name="PlotId" Type="nvarchar" MaxLength="50" />
+          <Property Name="MaxPayout" Type="int" />
+          <Property Name="TargetContribution" Type="int" />
+          <Property Name="WalletAddress" Type="nvarchar" MaxLength="200" />
+          <Property Name="UserDisplayName" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Transactions">
+          <Key>
+            <PropertyRef Name="TransactionId" />
+          </Key>
+          <Property Name="TransactionId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="AgreementPrimaryId" Type="int" Nullable="false" />
+          <Property Name="TransactionHash" Type="nvarchar(max)" />
+          <Property Name="DateOfAgreement" Type="datetime" />
+          <Property Name="Amount" Type="decimal" Precision="18" Scale="10" />
+          <Property Name="TransactionDate" Type="datetime" />
+          <Property Name="TransactionTypeId" Type="int" />
+        </EntityType>
+        <EntityType Name="TransactionType">
+          <Key>
+            <PropertyRef Name="TransactionTypeId" />
+          </Key>
+          <Property Name="TransactionTypeId" Type="int" Nullable="false" />
+          <Property Name="TransactionType" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <Association Name="FK_Transactions_Agreements">
+          <End Role="Agreements" Type="Self.Agreements" Multiplicity="1" />
+          <End Role="Transactions" Type="Self.Transactions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Agreements">
+              <PropertyRef Name="AgreementPrimaryId" />
+            </Principal>
+            <Dependent Role="Transactions">
+              <PropertyRef Name="AgreementPrimaryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Transactions_TransactionType">
+          <End Role="TransactionType" Type="Self.TransactionType" Multiplicity="0..1" />
+          <End Role="Transactions" Type="Self.Transactions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TransactionType">
+              <PropertyRef Name="TransactionTypeId" />
+            </Principal>
+            <Dependent Role="Transactions">
+              <PropertyRef Name="TransactionTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="IBISAModelStoreContainer">
+          <EntitySet Name="Agreements" EntityType="Self.Agreements" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Transactions" EntityType="Self.Transactions" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TransactionType" EntityType="Self.TransactionType" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Transactions_Agreements" Association="Self.FK_Transactions_Agreements">
+            <End Role="Agreements" EntitySet="Agreements" />
+            <End Role="Transactions" EntitySet="Transactions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Transactions_TransactionType" Association="Self.FK_Transactions_TransactionType">
+            <End Role="TransactionType" EntitySet="TransactionType" />
+            <End Role="Transactions" EntitySet="Transactions" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="IBISAModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="TransactionType">
+          <Key>
+            <PropertyRef Name="TransactionTypeId" />
+          </Key>
+          <Property Name="TransactionTypeId" Type="Int32" Nullable="false" />
+          <Property Name="TransactionType1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Transactions" Relationship="IBISAModel.FK_Transactions_TransactionType" FromRole="TransactionType" ToRole="Transaction" />
+        </EntityType>
+        <EntityContainer Name="IBISAEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="TransactionTypes" EntityType="Self.TransactionType" />
+          <EntitySet Name="Agreements" EntityType="IBISAModel.Agreement" />
+          <EntitySet Name="Transactions" EntityType="IBISAModel.Transaction" />
+          <AssociationSet Name="FK_Transactions_Agreements" Association="IBISAModel.FK_Transactions_Agreements">
+            <End Role="Agreement" EntitySet="Agreements" />
+            <End Role="Transaction" EntitySet="Transactions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Transactions_TransactionType" Association="IBISAModel.FK_Transactions_TransactionType">
+            <End Role="TransactionType" EntitySet="TransactionTypes" />
+            <End Role="Transaction" EntitySet="Transactions" />
+          </AssociationSet>
+          </EntityContainer>
+        <EntityType Name="Agreement">
+          <Key>
+            <PropertyRef Name="AgreementPrimaryId" />
+          </Key>
+          <Property Name="AgreementPrimaryId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AgreementId" Type="Int32" />
+          <Property Name="AgreementNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Location" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Zone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Crop" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="PlotId" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="MaxPayout" Type="Int32" />
+          <Property Name="TargetContribution" Type="Int32" />
+          <Property Name="WalletAddress" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="UserDisplayName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Transactions" Relationship="IBISAModel.FK_Transactions_Agreements" FromRole="Agreement" ToRole="Transaction" />
+        </EntityType>
+        <EntityType Name="Transaction">
+          <Key>
+            <PropertyRef Name="TransactionId" />
+          </Key>
+          <Property Name="TransactionId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AgreementPrimaryId" Type="Int32" Nullable="false" />
+          <Property Name="TransactionHash" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="DateOfAgreement" Type="DateTime" Precision="3" />
+          <Property Name="Amount" Type="Decimal" Precision="18" Scale="10" />
+          <Property Name="TransactionDate" Type="DateTime" Precision="3" />
+          <Property Name="TransactionTypeId" Type="Int32" />
+          <NavigationProperty Name="Agreement" Relationship="IBISAModel.FK_Transactions_Agreements" FromRole="Transaction" ToRole="Agreement" />
+          <NavigationProperty Name="TransactionType" Relationship="IBISAModel.FK_Transactions_TransactionType" FromRole="Transaction" ToRole="TransactionType" />
+        </EntityType>
+        <Association Name="FK_Transactions_Agreements">
+          <End Type="IBISAModel.Agreement" Role="Agreement" Multiplicity="1" />
+          <End Type="IBISAModel.Transaction" Role="Transaction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Agreement">
+              <PropertyRef Name="AgreementPrimaryId" />
+            </Principal>
+            <Dependent Role="Transaction">
+              <PropertyRef Name="AgreementPrimaryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Transactions_TransactionType">
+          <End Type="IBISAModel.TransactionType" Role="TransactionType" Multiplicity="0..1" />
+          <End Type="IBISAModel.Transaction" Role="Transaction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TransactionType">
+              <PropertyRef Name="TransactionTypeId" />
+            </Principal>
+            <Dependent Role="Transaction">
+              <PropertyRef Name="TransactionTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="IBISAModelStoreContainer" CdmEntityContainer="IBISAEntities">
+          <EntitySetMapping Name="TransactionTypes">
+            <EntityTypeMapping TypeName="IBISAModel.TransactionType">
+              <MappingFragment StoreEntitySet="TransactionType">
+                <ScalarProperty Name="TransactionTypeId" ColumnName="TransactionTypeId" />
+                <ScalarProperty Name="TransactionType1" ColumnName="TransactionType" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Agreements">
+            <EntityTypeMapping TypeName="IBISAModel.Agreement">
+              <MappingFragment StoreEntitySet="Agreements">
+                <ScalarProperty Name="UserDisplayName" ColumnName="UserDisplayName" />
+                <ScalarProperty Name="WalletAddress" ColumnName="WalletAddress" />
+                <ScalarProperty Name="TargetContribution" ColumnName="TargetContribution" />
+                <ScalarProperty Name="MaxPayout" ColumnName="MaxPayout" />
+                <ScalarProperty Name="PlotId" ColumnName="PlotId" />
+                <ScalarProperty Name="Crop" ColumnName="Crop" />
+                <ScalarProperty Name="Zone" ColumnName="Zone" />
+                <ScalarProperty Name="Location" ColumnName="Location" />
+                <ScalarProperty Name="AgreementNumber" ColumnName="AgreementNumber" />
+                <ScalarProperty Name="AgreementId" ColumnName="AgreementId" />
+                <ScalarProperty Name="AgreementPrimaryId" ColumnName="AgreementPrimaryId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Transactions">
+            <EntityTypeMapping TypeName="IBISAModel.Transaction">
+              <MappingFragment StoreEntitySet="Transactions">
+                <ScalarProperty Name="TransactionTypeId" ColumnName="TransactionTypeId" />
+                <ScalarProperty Name="TransactionDate" ColumnName="TransactionDate" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="DateOfAgreement" ColumnName="DateOfAgreement" />
+                <ScalarProperty Name="TransactionHash" ColumnName="TransactionHash" />
+                <ScalarProperty Name="AgreementPrimaryId" ColumnName="AgreementPrimaryId" />
+                <ScalarProperty Name="TransactionId" ColumnName="TransactionId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="true" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

@@ -1,0 +1,217 @@
+﻿@using IBISA.Controllers
+@model IBISA.Models.DashboardInfo
+
+@{
+    ViewBag.Title = "IBISA | On-Chain System Dashboard";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-6">
+                    <h1>On-Chain System Dashboard</h1>
+                    <ol class="breadcrumb">
+                        <li><a href="@Url.Action("Index", "Home")"><i class="fa fa-home"></i> Home</a></li>
+                        <li class="active">System Dashboard</li>
+                    </ol>
+                </div>
+                <div class="col-xs-12 col-sm-12 col-md-6">
+                    <div class="filter-con">
+                        <div class="form-inline text-right">
+                            <div class="form-group">
+                                <select name="" id="" class="form-control">
+                                    <option value="">Select Region</option>
+                                    <option value="">Nigeria Savana</option>
+                                    <option value="">Tanzania Lake District</option>
+                                    <option value="">Peru North Coast</option>
+                                    <option value="">North Gujarat</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <select name="" id="" class="form-control">
+                                    <option value="">Select Zone</option>
+                                    <option value="">Peru La huaca 4.961410 S, 80.909895 W</option>
+                                    <option value="">Tanzania Llemela 2.652471 S, 33.037037 E</option>
+                                    <option value="">Nigeria Soba 11.016447 N, 7.938215 E</option>
+                                    <option value="">Gujarat Kutch 23.48 N, 70.54 E</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        <div class="container">
+            <!-- Small boxes (Stat box) -->
+            @if (Model != null && Model.AgreementDetails != null)
+            {
+                <div class="row">
+                    <div class="col-md-4 col-sm-6 col-xs-12">
+                        <!-- small box -->
+                        <div class="small-box bg-orange total-users">
+                            <div class="inner ">
+                                <p>Total Users</p>
+                                <h3 class="no-margin">@Model.totalUsers</h3>
+                            </div>
+                            <div class="icon">
+                                <i class="fa fa-users"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-6 col-xs-12">
+                        <!-- small box -->
+                        <div class="small-box bg-blue">
+                            <div class="inner">
+                                <p>Total Agreements</p>
+                                <h3 class="no-margin">@Model.totalUsers</h3>
+                            </div>
+                            <div class="icon">
+                                <i class="ion ion-document"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- ./col -->
+                    <!-- ./col -->
+                    <div class="col-md-4 col-sm-6 col-xs-12">
+                        <!-- small box -->
+                        <div class="small-box bg-green">
+                            <div class="inner">
+                                <p>Contribution Received</p>
+                                <h3 class="no-margin">@Model.AgreementDetails.Sum(x => x.deposit_wallet).KiloFormat() <small>XIB</small></h3>
+                            </div>
+                            <div class="icon">
+                                <i class="ion ion-cash"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- ./col -->
+                    <!-- ./col -->
+                    <div class="col-md-4 col-sm-6 col-xs-12">
+                        <!-- small box -->
+                        <div class="small-box bg-yellow ">
+                            <div class="inner">
+                                <p>New Users this month</p>
+                                <h3 class="no-margin">3</h3>
+                            </div>
+                            <div class="icon">
+                                <i class="fa fa-user"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- ./col -->
+                    <!-- ./col -->
+                    <div class="col-md-4 col-sm-6 col-xs-12">
+                        <!-- small box -->
+                        <div class="small-box bg-aqua agreement">
+                            <div class="inner">
+                                <p>New Agreements this month</p>
+                                <h3 class="no-margin">3</h3>
+                            </div>
+                            <div class="icon">
+                                <i class="fa fa-file-text"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-6 col-xs-12">
+                        <!-- small box -->
+                        <div class="small-box bg-teal">
+                            <div class="inner">
+                                <p>Paid Out</p>
+                                <h3 class="no-margin">@Model.AgreementDetails.Sum(x => x.withdrawal_wallet).KiloFormat() <small>XIB</small></h3>
+                            </div>
+                            <div class="icon">
+                                <i class="ion ion-cash"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            <!-- /.row -->
+            <!-- Agreements -->
+                <div class="row">
+                    @if (Model.AgreementDetails.Count > 0)
+                    {
+                        <div class="col-xs-12">
+                            <h2 class="m-bot">Agreements</h2>
+                        </div>
+                        foreach (var agreementDetail in Model.AgreementDetails)
+                        {
+                            <div class="col-md-4 col-sm-6 col-xs-12 ">
+                                <div class="box box-default agreement-card">
+                                    <div class="box-header">
+                                        <h3 class="box-title"><span>Agreement:</span> <a href="@Url.Action("TransactionSummary", new { id = agreementDetail.agreementPrimaryId })"> @agreementDetail.agreementNumber</a></h3>
+                                    </div>
+                                    <!-- /.box-header -->
+                                    <div class="box-body">
+                                        <dl class="dl-horizontal">
+                                            <dt>Status:</dt>
+                                            <dd>@(agreementDetail.withdrawal_wallet > 0 ? "Claimed" : "Not Claimed")</dd>
+                                            <dt>Deposit Wallet:</dt>
+                                            <dd>@agreementDetail.deposit_wallet.ToString("0.##") XIB</dd>
+                                            <dt>Withdrawal Wallet:</dt>
+                                            <dd>@agreementDetail.withdrawal_wallet.ToString("0.##") XIB</dd>
+                                        </dl>
+                                    </div>
+                                    <!-- /.box-body -->
+                                    <div class="box-footer">
+                                        @{ var disabled = agreementDetail.withdrawal_wallet > 0 ? "disabled" : string.Empty; }
+                                        <a href="#" class="btn btn-sm btn-primary pull-left contribute" data-agreementprimaryid="@agreementDetail.agreementPrimaryId" data-agreementid="@agreementDetail.agreementId" data-wallet_address="@agreementDetail.wallet_address">Contribute</a>
+                                        <a href="#" class="btn btn-sm btn-default pull-right indemnify @disabled" data-agreementprimaryid="@agreementDetail.agreementPrimaryId" data-agreementid="@agreementDetail.agreementId" data-wallet_address="@agreementDetail.wallet_address" data-zone="@agreementDetail.zone">Indemnify</a>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    }
+                </div>
+                <!-- /.box -->
+            }
+        </div>
+    </section>
+    <!-- /.content -->
+</div>
+<script>
+    $(document).ready(function () {
+        $('.contribute').click(function () {
+            $.ajax({
+                type: "POST",
+                url: "/IBISAAdmin/Contribute",
+                dataType: 'json',
+                data: { agreementprimaryid: $(this).attr("data-agreementPrimaryId"), id: $(this).attr("data-agreementId"), address: $(this).attr("data-wallet_address") },
+                success: function (data) {
+                    var result = JSON.parse(data);
+                    console.log(result);
+                    if (result.status == '1') {
+                        alert("Transaction Hash: " + result.data.tx_hash);
+                        location.reload();
+                    }
+                }
+            })
+        });
+    })
+    $(document).ready(function () {
+        $('.indemnify').click(function () {
+            $.ajax({
+                type: "POST",
+                url: "/IBISAAdmin/Indemnify",
+                dataType: 'json',
+                data: { agreementprimaryid: $(this).attr("data-agreementPrimaryId"), id: $(this).attr("data-agreementId"), address: $(this).attr("data-wallet_address"), zone: $(this).attr("data-zone") },
+                success: function (data) {
+                    var result = JSON.parse(data);
+                    console.log(result);
+                    if (result.status == '1') {
+                        alert("Transaction Hash: " + result.data.tx_hash);
+                        location.reload();
+                    }
+                }
+            })
+        });
+    })
+</script>
