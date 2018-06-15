@@ -1,0 +1,43 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!doctype html>
+<title>Bar Chart</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+<style>
+    canvas {
+        -moz-user-select: none;
+        -webkit-user-select: none;
+        -ms-user-select: none;
+    }
+</style>
+
+<body>
+    <div id="container" style="width: 75%;">
+        <canvas id="bar-chart" width="800" height="450"></canvas>
+    </div>
+    <script>
+   new Chart(document.getElementById("bar-chart"), {
+    type: 'bar',
+    data: {
+      labels: ["-20 to -55",5,20,34,55],
+      datasets: [
+        {
+          label: "Population (millions)",
+          backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
+          data: [2478,5267,734,784,433]
+        }
+      ]
+    },
+    options: {
+      legend: { display: false },
+      title: {
+        display: true,
+        text: 'Predicted world population (millions) in 2050'
+      }
+    }
+});
+    </script>
+</body>

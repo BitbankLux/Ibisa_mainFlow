@@ -1,0 +1,148 @@
+﻿@model IBISA.Models.LoginModel
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>IBISA | Login</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <!-- Bootstrap 3.3.7 -->
+    <link rel="stylesheet" href="~/css/bootstrap.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="~/css/font-awesome.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="~/css/ionicons.min.css">
+    <!-- jvectormap -->
+    <link rel="stylesheet" href="~/css/jquery-jvectormap.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="~/css/style.css">
+    <link rel="stylesheet" href="~/css/login.css">
+    <!-- AdminLTE Skins. Choose a skin from the css/skins
+       folder instead of downloading all of them to reduce the load. -->
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <!-- Google Font -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+
+</head>
+
+
+
+<body class="hold-transition layout-top-nav">
+    <div class="login-wrapper">
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <!-- Main content -->
+            <section class="content">
+                <div class="container">
+                    <!-- TABLE: LATEST ORDERS -->
+                    <div class="box box-primary">
+                        <!-- /.box-header -->
+                        <div class="box-body">
+                            <div class="form-section col-sm-6">
+                                <div class="logo">
+                                    <a href="index.html"><img src="~/images/ibisa-logo-login.png" alt="IBISA Logo"></a>
+                                </div>
+                                <div class="heading">
+                                    <h1>Login</h1>
+                                </div>
+                                @using (Html.BeginForm("Login", "Account", FormMethod.Post, new { @class = "login-form" }))
+                                {
+                                    @Html.AntiForgeryToken()
+
+                                    <h1 style="color:red">@ViewBag.FailedLogin</h1>
+                                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                    <div class="form-group">
+                                        @*@Html.LabelFor(model => model.userName, htmlAttributes: new { @class = "control-label col-md-2" })*@
+                                        @Html.EditorFor(model => model.userName, new { htmlAttributes = new { @class = "form-control", placeholder = "Username" } })
+                                        @Html.ValidationMessageFor(model => model.userName, "", new { @class = "text-danger" })
+                                    </div>
+
+                                    <div class="form-group">
+                                        @*@Html.LabelFor(model => model.password, htmlAttributes: new { @class = "control-label col-md-2" })*@
+                                        @Html.EditorFor(model => model.password, new { htmlAttributes = new { @class = "form-control", placeholder = "Password", @type = "password" } })
+                                        @Html.ValidationMessageFor(model => model.password, "", new { @class = "text-danger" })
+                                    </div>
+
+                                        <div class="form-group">
+                                            <input type="submit" value="Login" class="btn btn-primary btn-lg btn-login btn-dark" title="Login" />
+                                        </div>
+                                        <div class="form-group">
+                                            <a href="#">Forgot password?</a>
+                                        </div>
+                                }
+                                @*<form class="login-form">
+                                        <div class="form-group">
+
+                                            <input type="email" class="form-control" placeholder="Emial">
+                                        </div>
+                                        <div class="form-group">
+
+                                            <input type="password" class="form-control" placeholder="Password">
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control custom-checkbox">
+                                                Keep me logged in
+                                                <input type="checkbox">
+                                                <span class="control-indicator"></span>
+                                            </label>
+                                        </div>
+                                        <div class="form-group">
+                                            <button type="submit" class="btn btn-primary btn-lg btn-login btn-dark" title="Login">Login</button>
+                                        </div>
+                                        <div class="form-group">
+                                            <a href="#">Forgot password?</a>
+                                        </div>
+                                    </form>*@
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.content footer-->
+                    <div class="text-center">
+                        <strong>Copyright &copy; 2018 <a href="http://www.bitbank.lu/ibisa">Bitbank Sarl</a>.</strong> All Rights Reserved.
+                    </div>
+                    <!-- /.content footer-->
+                    <!-- /.box -->
+                </div>
+            </section>
+            <!-- /.content -->
+        </div>
+        <!-- /.content-wrapper -->
+    </div>
+    <!-- ./wrapper -->
+    <!-- jQuery 3 -->
+    <script src="~/js/jquery.min.js"></script>
+    <!-- Bootstrap 3.3.7 -->
+    <script src="~/js/bootstrap.min.js"></script>
+    <!-- FastClick -->
+    <script src="~/js/fastclick.js"></script>
+    <!-- AdminLTE App -->
+    <script src="~/js/theme.min.js"></script>
+    <!-- Sparkline -->
+    <script src="~/js/jquery.sparkline.min.js"></script>
+    <!-- jvectormap  -->
+    <script src="~/js/jquery-jvectormap-1.2.2.min.js"></script>
+    <script src="~/js/jquery-jvectormap-world-mill-en.js"></script>
+    <!-- SlimScroll -->
+    <script src="~/js/jquery.slimscroll.min.js"></script>
+    <!-- ChartJS -->
+    <script src="~/js/chart.min.js"></script>
+    <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
+    <script src="~/js/page.js"></script>
+
+</body>
+
+</html>
+

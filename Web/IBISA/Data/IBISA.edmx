@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="IBISAModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="IBISAModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Agreements">
           <Key>
             <PropertyRef Name="AgreementPrimaryId" />
@@ -20,6 +20,45 @@
           <Property Name="TargetContribution" Type="int" />
           <Property Name="WalletAddress" Type="nvarchar" MaxLength="200" />
           <Property Name="UserDisplayName" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Iddirs">
+          <Key>
+            <PropertyRef Name="IddirId" />
+          </Key>
+          <Property Name="IddirId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="CreatedDate" Type="datetime2" Precision="7" Nullable="false" />
+        </EntityType>
+        <EntityType Name="MachineAssessment">
+          <Key>
+            <PropertyRef Name="MachineAssessmentId" />
+          </Key>
+          <Property Name="MachineAssessmentId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IddirId" Type="int" />
+          <Property Name="Zone" Type="varchar" MaxLength="50" />
+          <Property Name="Plot" Type="int" Nullable="false" />
+          <Property Name="Anomaly" Type="numeric" Precision="5" Scale="2" Nullable="false" />
+          <Property Name="AssessmentGroup" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Options">
+          <Key>
+            <PropertyRef Name="OptionId" />
+          </Key>
+          <Property Name="OptionId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="OptionName" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="OptionValue" Type="int" Nullable="false" />
+          <Property Name="QuestionId" Type="int" Nullable="false" />
+          <Property Name="DisplayOrder" Type="tinyint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Questions">
+          <Key>
+            <PropertyRef Name="QuestionId" />
+          </Key>
+          <Property Name="QuestionId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Question" Type="nvarchar" MaxLength="4000" Nullable="false" />
+          <Property Name="IddirId" Type="int" Nullable="false" />
+          <Property Name="DueDate" Type="datetime2" Precision="7" Nullable="false" />
+          <Property Name="CreatedDate" Type="datetime2" Precision="7" Nullable="false" />
         </EntityType>
         <EntityType Name="Transactions">
           <Key>
@@ -40,15 +79,34 @@
           <Property Name="TransactionTypeId" Type="int" Nullable="false" />
           <Property Name="TransactionType" Type="nvarchar" MaxLength="50" />
         </EntityType>
-        <Association Name="FK_Transactions_Agreements">
-          <End Role="Agreements" Type="Self.Agreements" Multiplicity="1" />
-          <End Role="Transactions" Type="Self.Transactions" Multiplicity="*" />
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Username" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Password" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="CreatedDate" Type="datetime2" Precision="7" Nullable="false" />
+        </EntityType>
+        <EntityType Name="WatcherResponses">
+          <Key>
+            <PropertyRef Name="WatcherResponseId" />
+          </Key>
+          <Property Name="WatcherResponseId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="WatcherId" Type="int" Nullable="false" />
+          <Property Name="QuestionId" Type="int" Nullable="false" />
+          <Property Name="OptionId" Type="int" Nullable="false" />
+          <Property Name="CreatedDate" Type="datetime2" Precision="7" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Questions_Iddirs">
+          <End Role="Iddirs" Type="Self.Iddirs" Multiplicity="1" />
+          <End Role="Questions" Type="Self.Questions" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Agreements">
-              <PropertyRef Name="AgreementPrimaryId" />
+            <Principal Role="Iddirs">
+              <PropertyRef Name="IddirId" />
             </Principal>
-            <Dependent Role="Transactions">
-              <PropertyRef Name="AgreementPrimaryId" />
+            <Dependent Role="Questions">
+              <PropertyRef Name="IddirId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -64,17 +122,40 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_WatcherResponse_Options">
+          <End Role="Options" Type="Self.Options" Multiplicity="1" />
+          <End Role="WatcherResponses" Type="Self.WatcherResponses" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Options">
+              <PropertyRef Name="OptionId" />
+            </Principal>
+            <Dependent Role="WatcherResponses">
+              <PropertyRef Name="OptionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="SP_Bubblechart" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <EntityContainer Name="IBISAModelStoreContainer">
           <EntitySet Name="Agreements" EntityType="Self.Agreements" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Iddirs" EntityType="Self.Iddirs" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MachineAssessment" EntityType="Self.MachineAssessment" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Options" EntityType="Self.Options" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Questions" EntityType="Self.Questions" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Transactions" EntityType="Self.Transactions" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TransactionType" EntityType="Self.TransactionType" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="FK_Transactions_Agreements" Association="Self.FK_Transactions_Agreements">
-            <End Role="Agreements" EntitySet="Agreements" />
-            <End Role="Transactions" EntitySet="Transactions" />
+          <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="WatcherResponses" EntityType="Self.WatcherResponses" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Questions_Iddirs" Association="Self.FK_Questions_Iddirs">
+            <End Role="Iddirs" EntitySet="Iddirs" />
+            <End Role="Questions" EntitySet="Questions" />
           </AssociationSet>
           <AssociationSet Name="FK_Transactions_TransactionType" Association="Self.FK_Transactions_TransactionType">
             <End Role="TransactionType" EntitySet="TransactionType" />
             <End Role="Transactions" EntitySet="Transactions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_WatcherResponse_Options" Association="Self.FK_WatcherResponse_Options">
+            <End Role="Options" EntitySet="Options" />
+            <End Role="WatcherResponses" EntitySet="WatcherResponses" />
           </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -101,6 +182,21 @@
             <End Role="TransactionType" EntitySet="TransactionTypes" />
             <End Role="Transaction" EntitySet="Transactions" />
           </AssociationSet>
+          <EntitySet Name="Iddirs" EntityType="IBISAModel.Iddir" />
+          <EntitySet Name="Options" EntityType="IBISAModel.Option" />
+          <EntitySet Name="Questions" EntityType="IBISAModel.Question" />
+          <EntitySet Name="Users" EntityType="IBISAModel.User" />
+          <EntitySet Name="WatcherResponses" EntityType="IBISAModel.WatcherRespons" />
+          <AssociationSet Name="FK_Questions_Iddirs" Association="IBISAModel.FK_Questions_Iddirs">
+            <End Role="Iddir" EntitySet="Iddirs" />
+            <End Role="Question" EntitySet="Questions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_WatcherResponse_Options" Association="IBISAModel.FK_WatcherResponse_Options">
+            <End Role="Option" EntitySet="Options" />
+            <End Role="WatcherRespons" EntitySet="WatcherResponses" />
+          </AssociationSet>
+          <EntitySet Name="MachineAssessments" EntityType="IBISAModel.MachineAssessment" />
+          <FunctionImport Name="SP_Bubblechart" ReturnType="Collection(IBISAModel.SP_Bubblechart_Result)" />
           </EntityContainer>
         <EntityType Name="Agreement">
           <Key>
@@ -157,6 +253,97 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Iddir">
+          <Key>
+            <PropertyRef Name="IddirId" />
+          </Key>
+          <Property Name="IddirId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="7" />
+          <NavigationProperty Name="Questions" Relationship="IBISAModel.FK_Questions_Iddirs" FromRole="Iddir" ToRole="Question" />
+        </EntityType>
+        <EntityType Name="Option">
+          <Key>
+            <PropertyRef Name="OptionId" />
+          </Key>
+          <Property Name="OptionId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="OptionName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="OptionValue" Type="Int32" Nullable="false" />
+          <Property Name="QuestionId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="WatcherResponses" Relationship="IBISAModel.FK_WatcherResponse_Options" FromRole="Option" ToRole="WatcherRespons" />
+          <Property Name="DisplayOrder" Type="Byte" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Question">
+          <Key>
+            <PropertyRef Name="QuestionId" />
+          </Key>
+          <Property Name="QuestionId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Question1" Type="String" Nullable="false" MaxLength="4000" FixedLength="false" Unicode="true" />
+          <Property Name="IddirId" Type="Int32" Nullable="false" />
+          <Property Name="DueDate" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="7" />
+          <NavigationProperty Name="Iddir" Relationship="IBISAModel.FK_Questions_Iddirs" FromRole="Question" ToRole="Iddir" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Username" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Password" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="7" />
+        </EntityType>
+        <EntityType Name="WatcherRespons">
+          <Key>
+            <PropertyRef Name="WatcherResponseId" />
+          </Key>
+          <Property Name="WatcherResponseId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="WatcherId" Type="Int32" Nullable="false" />
+          <Property Name="QuestionId" Type="Int32" Nullable="false" />
+          <Property Name="OptionId" Type="Int32" Nullable="false" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="7" />
+          <NavigationProperty Name="Option" Relationship="IBISAModel.FK_WatcherResponse_Options" FromRole="WatcherRespons" ToRole="Option" />
+        </EntityType>
+        <Association Name="FK_Questions_Iddirs">
+          <End Type="IBISAModel.Iddir" Role="Iddir" Multiplicity="1" />
+          <End Type="IBISAModel.Question" Role="Question" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Iddir">
+              <PropertyRef Name="IddirId" />
+            </Principal>
+            <Dependent Role="Question">
+              <PropertyRef Name="IddirId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_WatcherResponse_Options">
+          <End Type="IBISAModel.Option" Role="Option" Multiplicity="1" />
+          <End Type="IBISAModel.WatcherRespons" Role="WatcherRespons" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Option">
+              <PropertyRef Name="OptionId" />
+            </Principal>
+            <Dependent Role="WatcherRespons">
+              <PropertyRef Name="OptionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="MachineAssessment">
+          <Key>
+            <PropertyRef Name="MachineAssessmentId" />
+          </Key>
+          <Property Name="MachineAssessmentId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IddirId" Type="Int32" />
+          <Property Name="Zone" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Plot" Type="Int32" Nullable="false" />
+          <Property Name="Anomaly" Type="Int32" Nullable="false" />
+          <Property Name="AssessmentGroup" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <ComplexType Name="SP_Bubblechart_Result">
+          <Property Type="Int32" Name="OptionId" Nullable="false" />
+          <Property Type="String" Name="OptionName" Nullable="true" MaxLength="100" />
+          <Property Type="Int32" Name="watcherrespos" Nullable="true" />
+        </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -201,6 +388,79 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="Iddirs">
+            <EntityTypeMapping TypeName="IBISAModel.Iddir">
+              <MappingFragment StoreEntitySet="Iddirs">
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="IddirId" ColumnName="IddirId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Options">
+            <EntityTypeMapping TypeName="IBISAModel.Option">
+              <MappingFragment StoreEntitySet="Options">
+                <ScalarProperty Name="DisplayOrder" ColumnName="DisplayOrder" />
+                <ScalarProperty Name="QuestionId" ColumnName="QuestionId" />
+                <ScalarProperty Name="OptionValue" ColumnName="OptionValue" />
+                <ScalarProperty Name="OptionName" ColumnName="OptionName" />
+                <ScalarProperty Name="OptionId" ColumnName="OptionId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Questions">
+            <EntityTypeMapping TypeName="IBISAModel.Question">
+              <MappingFragment StoreEntitySet="Questions">
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="DueDate" ColumnName="DueDate" />
+                <ScalarProperty Name="IddirId" ColumnName="IddirId" />
+                <ScalarProperty Name="Question1" ColumnName="Question" />
+                <ScalarProperty Name="QuestionId" ColumnName="QuestionId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="IBISAModel.User">
+              <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="WatcherResponses">
+            <EntityTypeMapping TypeName="IBISAModel.WatcherRespons">
+              <MappingFragment StoreEntitySet="WatcherResponses">
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="OptionId" ColumnName="OptionId" />
+                <ScalarProperty Name="QuestionId" ColumnName="QuestionId" />
+                <ScalarProperty Name="WatcherId" ColumnName="WatcherId" />
+                <ScalarProperty Name="WatcherResponseId" ColumnName="WatcherResponseId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MachineAssessments">
+            <EntityTypeMapping TypeName="IBISAModel.MachineAssessment">
+              <MappingFragment StoreEntitySet="MachineAssessment">
+                <ScalarProperty Name="AssessmentGroup" ColumnName="AssessmentGroup" />
+                <ScalarProperty Name="Anomaly" ColumnName="Anomaly" />
+                <ScalarProperty Name="Plot" ColumnName="Plot" />
+                <ScalarProperty Name="Zone" ColumnName="Zone" />
+                <ScalarProperty Name="IddirId" ColumnName="IddirId" />
+                <ScalarProperty Name="MachineAssessmentId" ColumnName="MachineAssessmentId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="SP_Bubblechart" FunctionName="IBISAModel.Store.SP_Bubblechart">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="IBISAModel.SP_Bubblechart_Result">
+                <ScalarProperty Name="OptionId" ColumnName="OptionId" />
+                <ScalarProperty Name="OptionName" ColumnName="OptionName" />
+                <ScalarProperty Name="watcherrespos" ColumnName="watcherrespos" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

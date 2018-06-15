@@ -10,6 +10,14 @@
         <EntityTypeShape EntityType="IBISAModel.Transaction" Width="1.5" PointX="5.25" PointY="1.625" />
         <AssociationConnector Association="IBISAModel.FK_Transactions_Agreements" />
         <AssociationConnector Association="IBISAModel.FK_Transactions_TransactionType" />
+        <EntityTypeShape EntityType="IBISAModel.Iddir" Width="1.5" PointX="7.75" PointY="1.125" />
+        <EntityTypeShape EntityType="IBISAModel.Option" Width="1.5" PointX="5.75" PointY="6" />
+        <EntityTypeShape EntityType="IBISAModel.Question" Width="1.5" PointX="10" PointY="0.875" />
+        <EntityTypeShape EntityType="IBISAModel.User" Width="1.5" PointX="0.75" PointY="6.75" />
+        <EntityTypeShape EntityType="IBISAModel.WatcherRespons" Width="1.5" PointX="8" PointY="5.875" />
+        <AssociationConnector Association="IBISAModel.FK_Questions_Iddirs" />
+        <AssociationConnector Association="IBISAModel.FK_WatcherResponse_Options" />
+        <EntityTypeShape EntityType="IBISAModel.MachineAssessment" Width="1.5" PointX="3.375" PointY="8.75" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

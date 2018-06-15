@@ -1,0 +1,25 @@
+.login-wrapper { height: 100vh; }
+.login-wrapper .content { padding-top: 30px; padding-bottom: 30px; }
+.login-wrapper .box-body { background-image: url(../images/login-bg.jpg); background-repeat: no-repeat; background-size: cover; background-position: center; padding: 0; position: relative; }
+.login-wrapper .form-section { min-height: 350px; background: #fffffff0; padding: 30px 15px; }
+.login-wrapper .logo img { max-width: 130px; }
+.form-section .heading { padding: 20px 0; }
+.form-section .heading h1{margin: 0;}
+.login-form .form-control { border-bottom: 1px solid #ccc; border-right: 0px; border-left: 0px; border-top: 0px; background: transparent; border-color: #ccc; }
+.login-form .form-group { margin-bottom: 15px; }
+.login-form .form-control:focus { border-bottom: 1px solid #7cb360; }
+@media (min-width:600px){
+    .login-wrapper .form-section{padding: 40px;}
+}
+@media (min-width:768px) {
+.login-wrapper .content { padding-top: 40px; padding-bottom: 40px; }
+.login-wrapper .form-section { min-height: 450px; padding: 55px; }
+.form-section .heading { padding: 50px 0 30px 0; }
+.login-form .form-group { margin-bottom: 20px; }
+}
+@media (min-width:1024px) {
+.login-wrapper .content { padding-top: 60px; padding-bottom: 60px; }
+.login-wrapper .form-section { min-height: 650px; padding: 55px 90px; }
+.form-section .heading { padding: 95px 0 40px 0; }
+.login-form .form-group { margin-bottom: 40px; }
+}

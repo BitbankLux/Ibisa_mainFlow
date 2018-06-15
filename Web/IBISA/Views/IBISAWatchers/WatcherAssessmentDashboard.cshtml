@@ -1,0 +1,42 @@
+﻿<html>
+<head>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.3.0/Chart.bundle.js"></script>
+
+    <script src="~/js/jquery.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="col-sm-6">
+        <canvas id="popChart"></canvas>
+            </div>
+    </div>
+    <input type="hidden" value="@ViewBag.datajson" id="datajsn" />
+    <script type="text/javascript">
+        debugger
+        var popCanvas = document.getElementById("popChart");
+        Chart.defaults.global.defaultFontFamily = "Lato";
+        Chart.defaults.global.defaultFontSize = 18;
+        var JsonString = $("#datajsn").val()
+        var obj = JSON.parse(JsonString);
+
+        var popData = {
+            datasets: [{
+                label: ['Watcher Votes'],
+                data: obj,
+                backgroundColor: "#9966FF",
+                hoverBackgroundColor: "#000000",
+                hoverBorderColor: "#9966FF",
+                hoverBorderWidth: 5,
+                hoverRadius: 5
+            }]
+        };
+
+        var bubbleChart = new Chart(popCanvas, {
+            type: 'bubble',
+            data: popData
+        });
+
+    </script>
+</body>
+</html>

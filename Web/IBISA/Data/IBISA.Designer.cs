@@ -1,4 +1,4 @@
-﻿// T4 code generation is enabled for model 'D:\Projects\FC2859-IBISA\B.SourceCode\trunk\IBISA.Web\trunk\IBISA\IBISA\Data\IBISA.edmx'. 
+﻿// T4 code generation is enabled for model 'D:\Ibisa_mainFlow\IBISA\Data\IBISA.edmx'. 
 // To enable legacy code generation, change the value of the 'Code Generation Strategy' designer
 // property to 'Legacy ObjectContext'. This property is available in the Properties Window when the model
 // is open in the designer.

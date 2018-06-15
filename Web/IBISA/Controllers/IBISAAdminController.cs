@@ -242,6 +242,8 @@ namespace IBISA.Controllers
         {
             try
             {
+                
+
                 dynamic response = JObject.Parse(GetResponse(string.Format("/GetSystemDetails/{0}", "zoneA")));
                 if (response.status > 0)
                 {
